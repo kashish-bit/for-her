@@ -1,185 +1,161 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>For You 💖</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<title>Valentine 💖</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+body {
+  margin: 0;
+  font-family: 'Arial', sans-serif;
+  background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
-  <style>
-    body {
-      margin: 0;
-      height: 100vh;
-      background: linear-gradient(135deg, #ffe0b2, #ffcc80, #ffb74d);
-      font-family: 'Poppins', sans-serif;
-      overflow: hidden;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
+.page {
+  display: none;
+  background: white;
+  padding: 30px;
+  border-radius: 20px;
+  width: 320px;
+  text-align: center;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+}
 
-    .flowers {
-      position: fixed;
-      inset: 0;
-      font-size: 26px;
-      opacity: 0.25;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-around;
-      align-content: space-around;
-      pointer-events: none;
-      z-index: 0;
-    }
+.page.active {
+  display: block;
+}
 
-    .card {
-      background: white;
-      border-radius: 20px;
-      padding: 25px;
-      width: 90%;
-      max-width: 400px;
-      text-align: center;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-      z-index: 1;
-      animation: fadeIn 0.8s ease;
-    }
+button {
+  margin-top: 20px;
+  padding: 12px 22px;
+  border: none;
+  border-radius: 25px;
+  font-size: 1rem;
+  cursor: pointer;
+  background: #e63946;
+  color: white;
+}
 
-    h2 {
-      color: #ff8f00;
-    }
+.chat {
+  text-align: left;
+}
 
-    p {
-      font-size: 17px;
-    }
+.bubble {
+  background: #f1f1f1;
+  padding: 10px 14px;
+  border-radius: 15px;
+  margin: 8px 0;
+  width: fit-content;
+  max-width: 90%;
+}
 
-    button {
-      margin-top: 20px;
-      padding: 12px 20px;
-      border-radius: 25px;
-      border: none;
-      background: #ff9800;
-      color: white;
-      font-size: 16px;
-      cursor: pointer;
-      transition: transform 0.2s ease;
-    }
+.me {
+  background: #ffd6dc;
+}
 
-    button:hover {
-      transform: scale(1.05);
-    }
+.hearts span {
+  position: fixed;
+  bottom: -20px;
+  font-size: 20px;
+  animation: float 8s linear infinite;
+}
 
-    .yes-btn {
-      background: #ff4081;
-    }
+@keyframes float {
+  0% { transform: translateY(0); opacity: 1; }
+  100% { transform: translateY(-110vh); opacity: 0; }
+}
 
-    .alt-btn {
-      background: #ff7043;
-    }
+.playful {
+  animation: wiggle 2s infinite;
+}
 
-    .hearts {
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      display: none;
-    }
+@keyframes wiggle {
+  0%,100% { transform: translateX(0); }
+  50% { transform: translateX(4px); }
+}
 
-    .heart {
-      position: absolute;
-      font-size: 24px;
-      animation: floatUp 3s linear infinite;
-    }
-
-    img {
-      width: 160px;
-      margin-top: 15px;
-    }
-
-    @keyframes floatUp {
-      from { transform: translateY(100vh); opacity: 1; }
-      to { transform: translateY(-10vh); opacity: 0; }
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: scale(0.95); }
-      to { opacity: 1; transform: scale(1); }
-    }
-  </style>
+.confetti {
+  font-size: 22px;
+  margin-top: 15px;
+}
+</style>
 </head>
 
 <body>
 
-<div class="flowers">
-  🌸 🌼 🌷 🌸 🌼 🌷 🌸 🌼 🌷 🌸 🌼 🌷
+<!-- Page 1 -->
+<div class="page active" id="page1">
+  <h2>Hey you 💖</h2>
+  <p>Before I ask you something important…</p>
+  <button onclick="nextPage(2)">Next Page → 🎀</button>
+</div>
+
+<!-- Page 2 -->
+<div class="page" id="page2">
+  <div class="chat">
+    <div class="bubble me">Do you know what day is coming?</div>
+    <div class="bubble" id="msg2" style="display:none;">
+      I’ve been wanting to ask you something…
+    </div>
+  </div>
+  <button onclick="nextPage(3)" style="display:none;" id="tellBtn">
+    Tell me 👀
+  </button>
+</div>
+
+<!-- Page 3 -->
+<div class="page" id="page3">
+  <h3>
+    U never ever fail to make me smile and u r always there for me when I need u.
+    <br><br>
+    So I wanted to ask u this for a long time…
+    <br><br>
+    <strong>Will you be my Valentine?</strong> 💖
+  </h3>
+
+  <button class="playful" onclick="yes('Best choice ever 😭💖')">YESSS 💕</button>
+  <button class="playful" onclick="yes('I knew it 😌💞')">Of course 🥰</button>
+
+  <div class="confetti" id="result"></div>
 </div>
 
 <div class="hearts" id="hearts"></div>
 
-<div class="card" id="app"></div>
-
 <script>
-  const app = document.getElementById("app");
-  const hearts = document.getElementById("hearts");
+function nextPage(n) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page' + n).classList.add('active');
 
-  function page1() {
-    app.innerHTML = `
-      <h2>Hey you 💖</h2>
-      <p>Before I ask you something important…</p>
-      <button onclick="page2()">Next Page → 🎀</button>
-    `;
-  }
-
-  function page2() {
-    app.innerHTML = `
-      <h2>💬</h2>
-      <p id="chat"></p>
-      <button onclick="page3()">Tell me 👀</button>
-    `;
-
-    const chat = document.getElementById("chat");
-    chat.innerText = "Do you know what day is coming?";
+  if (n === 2) {
+    setTimeout(() => {
+      document.getElementById('msg2').style.display = 'block';
+    }, 2000);
 
     setTimeout(() => {
-      chat.innerText += "\n\nI’ve been wanting to ask you something…";
-    }, 2000);
+      document.getElementById('tellBtn').style.display = 'block';
+    }, 3500);
   }
+}
 
-  function page3() {
-    app.innerHTML = `
-      <h2>💖</h2>
-      <p>
-        U never ever fail to make me smile and u r always there for me when I need u.
-        So I wanted to ask u this for a long time…
-        <br><br>
-        <b>Will you be my Valentine?</b>
-      </p>
+function yes(text) {
+  document.getElementById('result').innerText = "🎉🎉 " + text + " 🎉🎉";
+}
 
-      <button class="yes-btn" onclick="yesClicked()">YESSS 💕</button>
-      <br>
-      <button class="alt-btn" onclick="yesClicked()">Of course 🥰</button>
-    `;
-  }
+function createHearts() {
+  const heart = document.createElement('span');
+  heart.innerText = '💖';
+  heart.style.left = Math.random() * 100 + 'vw';
+  heart.style.animationDuration = 5 + Math.random() * 5 + 's';
+  document.getElementById('hearts').appendChild(heart);
+  setTimeout(() => heart.remove(), 8000);
+}
 
-  function yesClicked() {
-    hearts.style.display = "block";
-    createHearts();
-
-    app.innerHTML = `
-      <h2>BEST CHOICE EVER 😭💖</h2>
-      <p>I knew it 😌💞</p>
-      <img src="https://media.giphy.com/media/l4FGpP4lxGGgK5CBW/giphy.gif" alt="Teddy Hug">
-    `;
-  }
-
-  function createHearts() {
-    for (let i = 0; i < 30; i++) {
-      const heart = document.createElement("div");
-      heart.className = "heart";
-      heart.innerText = "💖";
-      heart.style.left = Math.random() * 100 + "vw";
-      heart.style.animationDuration = (2 + Math.random() * 3) + "s";
-      hearts.appendChild(heart);
-    }
-  }
-
-  page1();
+setInterval(createHearts, 500);
 </script>
 
 </body>
